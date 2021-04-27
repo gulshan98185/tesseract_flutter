@@ -2,7 +2,7 @@
 # To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html
 #
 Pod::Spec.new do |s|
-  s.name             = 'tesseract_ocr'
+  s.name             = 'tesseract'
   s.version          = '0.3.0'
   s.summary          = 'Tesseract OCR 4 Flutter'
   s.description      = <<-DESC
