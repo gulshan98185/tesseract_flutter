@@ -8,7 +8,7 @@ import 'package:flutter/services.dart';
 class Tesseract {
   static const MethodChannel _channel = const MethodChannel('tesseract');
 
-  static Future<TesseractResultModel> extractText(String imagePath, String tessDataParentDirectoryPath, {String language}) async {
+  static Future<TesseractResultModel> extractText(String imagePath, String tessDataParentDirectoryPath, String language) async {
     assert(await File(imagePath).exists(), true);
     final String tessData = tessDataParentDirectoryPath;
     List<String> textElementList;
