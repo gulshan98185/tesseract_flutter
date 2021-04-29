@@ -20,11 +20,12 @@ public class SwiftTesseractPlugin: NSObject, FlutterPlugin {
 
             let params: [String : Any] = args as! [String : Any]
             let language: String? = params["language"] as? String
-            var swiftyTesseract = SwiftyTesseract(language: .english)
-            if(language != nil){
-                swiftyTesseract = SwiftyTesseract(language: .custom(language as String!))
-            }
-            let  imagePath = params["imagePath"] as! String
+            let path:String? = params["tessData"] as? String
+             
+            let lang = RecognitionLanguage.custom(language! as String)
+           let swiftyTesseract = SwiftyTesseract(language: lang,dataSource:  Test(pathToTrainedData: path!) as LanguageModelDataSource)
+            
+             let  imagePath = params["imagePath"] as! String
             guard let image = UIImage(contentsOfFile: imagePath)else { return }
 
             swiftyTesseract.performOCR(on: image) { recognizedString in
@@ -49,4 +50,13 @@ public class SwiftTesseractPlugin: NSObject, FlutterPlugin {
             print(error)
         }
     }
+}
+class Test :LanguageModelDataSource{
+    var pathToTrainedData: String
+    
+    init(pathToTrainedData: String) {
+        self.pathToTrainedData=pathToTrainedData
+    }
+    
+    
 }
