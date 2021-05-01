@@ -29,9 +29,39 @@ public class SwiftTesseractPlugin: NSObject, FlutterPlugin {
             guard let image = UIImage(contentsOfFile: imagePath)else { return }
 
             swiftyTesseract.performOCR(on: image) { recognizedString in
-
+               
+                var rectList :[[CGFloat]] = []
+                var textElementList : [String] = []
+                 
+                var    dataMap : [String:Any]=[:]
+                
+                let vari =  swiftyTesseract.recognizedBlocks(for: ResultIteratorLevel.word)
+                var resultText :[RecognizedBlock]? = nil
+                do{
+                    resultText=try   vari.get();}
+                catch{
+                    print(error)
+                }
+                if resultText != nil {
+                    
+                    for value :RecognizedBlock in resultText! {
+                         
+                    //    dataMap.updateValue(value.boundingBox, forKey: "TEXT_ELEMENT_RECT")
+                        textElementList.append(value.text)
+                        rectList.append( [value.boundingBox.minX,value.boundingBox.minY,value.boundingBox.maxX,value.boundingBox.maxY])
+                        print("\(value)")
+                    }
+                   
+                }
                 guard let extractText = recognizedString else { return }
-                result(extractText)
+                
+                if(textElementList != nil && rectList != nil && textElementList.count == rectList.count){
+
+                    dataMap.updateValue(recognizedString,forKey:"TEXT");
+                    dataMap.updateValue(textElementList,forKey:"TEXT_ELEMENT");
+                    dataMap.updateValue(rectList,forKey:"TEXT_ELEMENT_RECT");
+                        }
+                 result(dataMap)
             }
         }
     }
