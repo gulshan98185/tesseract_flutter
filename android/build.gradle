@@ -29,5 +29,5 @@ android {
     }
 }
 dependencies {
-    implementation 'cz.adaptech.android:tesseract4android:2.1.1'
+    implementation 'cz.adaptech.android:tesseract4android:4.1.1'
 }
